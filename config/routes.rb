@@ -2,6 +2,9 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  resources :feelings
+  resources :users, only: [:show, :edit, :update] do
+    resources :feelings
+  end
+
   root 'feelings#index'
 end
