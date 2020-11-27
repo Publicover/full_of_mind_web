@@ -1,0 +1,20 @@
+<%= form_for [@user, @feeling] do |f| %>
+  <% if @feeling.errors.any? %>
+    <div id="error_explanation">
+      <p>
+        <%= pluralize(@feeling.errors.count, "error") %> prohibited
+        this article from being saved:
+      </p>
+      <% @feeling.errors.full_messages.each do |msg| %>
+        <li><center><%= msg %></li>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= f.label 'Feeling' %>
+  <%= f.text_field :body %>
+
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <%= f.submit %>
+<% end %>

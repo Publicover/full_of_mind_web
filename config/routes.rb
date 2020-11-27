@@ -6,5 +6,5 @@ Rails.application.routes.draw do
     resources :feelings
   end
 
-  root 'feelings#index'
+  root 'dashboards#index'
 end
