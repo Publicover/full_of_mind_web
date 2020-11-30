@@ -16,4 +16,4 @@ window.jQuery = require( "jquery" );
 require("../stylesheets/application.scss");
 
 // javascript files
-import "../src/feelings_form.js";
+import "../src/feelings_form_js.js";

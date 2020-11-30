@@ -7,7 +7,7 @@
 
 <% if @user.can_update_today? %>
   <% @user.feelings.current.each do |feeling| %>
-    <p><%= button_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary feeling-js' %></p>
+    <p><%= link_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary feeling-js' %></p>
   <% end %>
 <% else %>
   <% @user.feelings.current.each do |feeling| %>
@@ -15,8 +15,8 @@
   <% end %>
 <% end %>
 
-<% if @user.can_update_today? %>
-  <%= link_to "Record today's feeling", new_user_feeling_path(@user) %>
+<% if @user.can_see_feelings_form? %>
+  <%= render 'form' %>
 <% else %>
   Come back tomorrow to record more.
 <% end %>

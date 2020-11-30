@@ -31,10 +31,10 @@ class FeelingsControllerTest < ActionDispatch::IntegrationTest
   #   assert_response :success
   # end
 
-  test 'should get new' do
-    get new_user_feeling_path(@user)
-    assert_response :success
-  end
+  # test 'should get new' do
+  #   get new_user_feeling_path(@user)
+  #   assert_response :success
+  # end
 
   test 'should get edit' do
     get edit_user_feeling_path(@user, @feeling)

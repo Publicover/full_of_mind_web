@@ -7,10 +7,6 @@ class FeelingsController < ApplicationController
   def index
     # byebug
     @feelings = @user.feelings.current
-    # @feeling = Feeling.new
-  end
-
-  def new
     @feeling = Feeling.new
   end
 
@@ -34,7 +30,7 @@ class FeelingsController < ApplicationController
   def update
     if @user.can_update_today?
       @feeling.old!
-      redirect_to new_user_feeling_path(@user)
+      redirect_back(fallback_location: root_path)
     end
   end
 

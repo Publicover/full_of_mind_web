@@ -11,4 +11,12 @@ class User < ApplicationRecord
   def can_update_today?
     feelings.last.created_at < Time.zone.yesterday.end_of_day
   end
+
+  def has_few_enough_feelings?
+    feelings.current.count < Feeling::FEELING_LIMIT
+  end
+
+  def can_see_feelings_form?
+    can_update_today? && has_few_enough_feelings?
+  end
 end
