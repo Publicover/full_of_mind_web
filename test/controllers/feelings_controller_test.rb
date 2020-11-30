@@ -26,10 +26,10 @@ class FeelingsControllerTest < ActionDispatch::IntegrationTest
     refute_equal Feeling.count, @user.feelings.current.count
   end
 
-  test 'should get show' do
-    get user_feeling_path(@user, @feeling)
-    assert_response :success
-  end
+  # test 'should get show' do
+  #   get user_feeling_path(@user, @feeling)
+  #   assert_response :success
+  # end
 
   test 'should get new' do
     get new_user_feeling_path(@user)
@@ -42,15 +42,26 @@ class FeelingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create feeling' do
+    @user.feelings.each { |feeling| feeling.update(created_at: Time.zone.now - 2.days) }
+    assert @user.can_update_today?
     assert_difference ('Feeling.count') do
       post user_feelings_path(@user), params: { feeling: { body: 'testing create', user_id: @user.id } }
     end
     assert_response :redirect
   end
 
+  test 'should not create feeling if !@user.can_update_today?' do
+    refute @user.can_update_today?
+    assert_no_difference('Feeling.count') do
+      post user_feelings_path(@user), params: { feeling: { body: 'testing create', user_id: @user.id } }
+    end
+  end
+
   test 'should get update' do
-    get user_feeling_path(@user, @feeling)
-    assert_response :success
+    @user.feelings.each { |feeling| feeling.update(created_at: Time.zone.now - 2.days) }
+    assert @user.can_update_today?
+    put user_feeling_path(@user, @feeling)
+    assert_response :redirect
   end
 
   test 'should destroy feeling' do

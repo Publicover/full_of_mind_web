@@ -1,11 +1,22 @@
 <%= link_to 'Log out', destroy_user_session_path, :method => :delete %>
-<h1>Feelings#index</h1>
+<h1 id='feelings-index'>Feelings#index</h1>
 <p>Find me in app/views/feelings/index.html.erb</p>
 
-<p>Hey, <%= @user.email %>. Here's what you're thinking about:</p>
+<p>Hey, <%= @user.email %>. Pick the thought you've had the least today.</p>
+<p>After that, you'll be taken to the page to record what's on your mind today.</p>
 
-<% @user.feelings.current.each do |feeling| %>
-  <p>&nbsp&nbsp&nbsp&nbsp<%= feeling.body %></p>
+<% if @user.can_update_today? %>
+  <% @user.feelings.current.each do |feeling| %>
+    <p><%= button_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary feeling-js' %></p>
+  <% end %>
+<% else %>
+  <% @user.feelings.current.each do |feeling| %>
+    <p><button class="btn btn-outline-secondary feeling-js"><%= "#{feeling.body}" %></button></p>
+  <% end %>
 <% end %>
 
-<%= link_to "Record today's feeling", new_user_feeling_path(@user) %>
+<% if @user.can_update_today? %>
+  <%= link_to "Record today's feeling", new_user_feeling_path(@user) %>
+<% else %>
+  Come back tomorrow to record more.
+<% end %>

@@ -7,4 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :feelings, inverse_of: :user, dependent: :destroy
- end
+
+  def can_update_today?
+    feelings.last.created_at < Time.zone.yesterday.end_of_day
+  end
+end

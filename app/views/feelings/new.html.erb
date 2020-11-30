@@ -1,4 +1,8 @@
 <h1>Feelings#new</h1>
 <p>Find me in app/views/feelings/new.html.erb</p>
 
-<%= render 'form' %>
+<% if @user.can_update_today? %>
+  <%= render 'form' %>
+<% else %>
+  How'd you get here, cheeky? Don't update today.
+<% end %>
