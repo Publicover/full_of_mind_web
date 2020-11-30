@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  resources :users, only: [:show, :edit, :update] do
+  resources :users, only: %i[show edit update] do
     resources :feelings
   end
 

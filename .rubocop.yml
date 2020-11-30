@@ -8,6 +8,7 @@ AllCops:
     - config/environments/development.rb
     - config/initializers/devise.rb
     - db/migrations/**/*
+    - db/migrate/**/*
     - db/schema.rb
     - db/seeds.rb
     - bin/**/*

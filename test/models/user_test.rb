@@ -15,9 +15,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'should tell how many feelings you are showing' do
-    refute @user.has_few_enough_feelings?
+    refute @user.few_enough_feelings?
     @user.feelings.current.last(2).each { |feeling| feeling.delete }
-    assert @user.reload.has_few_enough_feelings?
+    assert @user.reload.few_enough_feelings?
   end
 
   test 'should tell if you can see the feelings form' do

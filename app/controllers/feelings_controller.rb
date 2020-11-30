@@ -2,10 +2,9 @@
 
 class FeelingsController < ApplicationController
   before_action :set_user
-  before_action :set_feeling, except: [:index, :new, :create]
+  before_action :set_feeling, except: %i[index create]
 
   def index
-    # byebug
     @feelings = @user.feelings.current
     @feeling = Feeling.new
   end
@@ -17,7 +16,6 @@ class FeelingsController < ApplicationController
 
     if @user.can_update_today?
       if @feeling.save
-        # byebug
         redirect_to user_feelings_path(@user)
       else
         render 'new'
@@ -28,10 +26,10 @@ class FeelingsController < ApplicationController
   end
 
   def update
-    if @user.can_update_today?
-      @feeling.old!
-      redirect_back(fallback_location: root_path)
-    end
+    return unless @user.can_update_today?
+
+    @feeling.old!
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy
