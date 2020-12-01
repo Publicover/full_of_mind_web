@@ -1,22 +1,20 @@
-<%= link_to 'Log out', destroy_user_session_path, :method => :delete %>
-<h1 id='feelings-index'>Feelings#index</h1>
-<p>Find me in app/views/feelings/index.html.erb</p>
+<h3>Think about the last few days</h3>
 
-<p>Hey, <%= @user.email %>. Pick the thought you've had the least today.</p>
-<p>After that, you'll be taken to the page to record what's on your mind today.</p>
+<p>Here's what's been on your mind for the last few days.</p>
+<p>Click the one that seems least relevant today, then write what you've been thinking about today.</p>
 
-<% if @user.can_update_today? %>
-  <% @user.feelings.current.each do |feeling| %>
-    <p><%= link_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary feeling-js' %></p>
-  <% end %>
-<% else %>
-  <% @user.feelings.current.each do |feeling| %>
-    <p><button class="btn btn-outline-secondary feeling-js"><%= "#{feeling.body}" %></button></p>
+<% @user.feelings.current.each do |feeling| %>
+  <% if @user.can_update_today? %>
+    <p><%= link_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary' %></p>
+  <% else %>
+    <p><button class="btn btn-outline-secondary"><%= "#{feeling.body}" %></button></p>
   <% end %>
 <% end %>
 
 <% if @user.can_see_feelings_form? %>
   <%= render 'form' %>
+<% elsif !@user.few_enough_feelings? %>
+  Pick a thought from the list to eliminate before adding another.
 <% else %>
-  Come back tomorrow to record more.
+  You can add another in <%= distance_of_time_in_words(@end_time) %>.
 <% end %>

@@ -11,12 +11,15 @@
   </head>
 
   <body>
-    <div class='middle'>
+    <%= render 'partials/header' %>
+    <% unless notice.nil? %>
       <p class="notice"><%= notice %></p>
-    </div>
-    <div class='middle'>
+    <% end %>
+    <% unless alert.nil? %>
       <p class="alert"><%= alert %></p>
+    <% end %>
+    <div class='container'>
+      <%= yield %>
     </div>
-    <%= yield %>
   </body>
 </html>

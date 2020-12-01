@@ -7,9 +7,8 @@ class FeelingsController < ApplicationController
   def index
     @feelings = @user.feelings.current
     @feeling = Feeling.new
+    @end_time = Time.zone.now.end_of_day - Time.zone.now
   end
-
-  def edit; end
 
   def create
     @feeling = Feeling.new(feelings_params)

@@ -26,11 +26,6 @@ class FeelingsControllerTest < ActionDispatch::IntegrationTest
     refute_equal Feeling.count, @user.feelings.current.count
   end
 
-  test 'should get edit' do
-    get edit_user_feeling_path(@user, @feeling)
-    assert_response :success
-  end
-
   test 'should create feeling' do
     @user.feelings.each { |feeling| feeling.update(created_at: Time.zone.now - 2.days) }
     assert @user.can_update_today?
