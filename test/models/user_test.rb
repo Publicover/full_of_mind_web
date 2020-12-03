@@ -27,4 +27,15 @@ class UserTest < ActiveSupport::TestCase
     @user.feelings.last.update(created_at: Time.zone.now - 2.days)
     assert @user.reload.can_see_feelings_form?
   end
+
+  test 'should know if you can complete onboarding' do
+    @user = User.create!(email: Faker::Internet.email, password: 'fakefortest')
+    @user.save
+    refute @user.onboarding_complete
+    refute @user.can_complete_onboarding?
+    4.times do
+      @user.feelings.create!(body: Faker::Games::Witcher.quote, user_id: @user.id)
+    end
+    assert @user.reload.can_complete_onboarding?
+  end
 end
