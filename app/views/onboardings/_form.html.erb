@@ -1,0 +1,20 @@
+<%= form_for [@user, @feeling], url: { controller: 'onboardings', action: 'create' }, html: { id: 'feelings-form-fade', remote: true } do |f| %>
+  <% if @feeling.errors.any? %>
+    <div id="error_explanation">
+      <p>
+        <%= pluralize(@feeling.errors.count, "error") %> prohibited
+        this article from being saved:
+      </p>
+      <% @feeling.errors.full_messages.each do |msg| %>
+        <li><center><%= msg %></li>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= f.label "What's on your mind?" %>
+  <%= f.text_field :body %>
+
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <%= f.submit %>
+<% end %>

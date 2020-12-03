@@ -7,14 +7,14 @@
   <% if @user.can_update_today? %>
     <p><%= link_to "#{feeling.body}", user_feeling_path(@user, feeling), action: :update, method: :patch, class: 'btn btn-outline-secondary' %></p>
   <% else %>
-    <p><button class="btn btn-outline-secondary"><%= "#{feeling.body}" %></button></p>
+    <p><button class="btn btn-outline-secondary feelings-button-fade"><%= "#{feeling.body}" %></button></p>
   <% end %>
 <% end %>
 
 <% if @user.can_see_feelings_form? %>
   <%= render 'form' %>
-<% elsif !@user.few_enough_feelings? %>
+<% elsif @user.few_enough_feelings? %>
   Pick a thought from the list to eliminate before adding another.
 <% else %>
-  You can add another in <%= distance_of_time_in_words(@end_time) %>.
+  You can add another in <%= distance_of_time_in_words(Time.zone.now.end_of_day - Time.zone.now) %>.
 <% end %>

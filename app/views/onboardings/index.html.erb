@@ -1,0 +1,15 @@
+<h2 class='middle'>Welcome to Full Of Mind</h2>
+
+<% @user.feelings.current.each do |feeling| %>
+  <p><button class="btn btn-outline-secondary feeling-button-fade"><%= "#{feeling.body}" %></button></p>
+<% end %>
+
+<% if @user.feelings.empty? %>
+  <%= render 'first_feeling_text' %>
+<% elsif @user.feelings.count == 1 %>
+  <%= render 'second_feeling_text' %>
+<% elsif @user.feelings.count == 2 %>
+  <%= render 'third_feeling_text' %>
+<% elsif @user.feelings.count == 3 %>
+  <%= render 'fourth_feeling_text' %>
+<% end %>

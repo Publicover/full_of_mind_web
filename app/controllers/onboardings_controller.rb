@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FeelingsController < ApplicationController
+class OnboardingsController < ApplicationController
   before_action :set_user
   before_action :set_feeling, except: %i[index create]
 
@@ -12,27 +12,12 @@ class FeelingsController < ApplicationController
   def create
     @feeling = Feeling.new(feelings_params)
 
-    if @user.can_update_today?
-      if @feeling.save
-        redirect_to user_feelings_path(@user)
-      else
-        render 'new'
-      end
-    else
-      render 'index', notice: 'You already recorded a feeling today.'
+    if @feeling.save && !@user.can_complete_onboarding?
+      redirect_to user_onboardings_path(@user)
+    elsif @feeling.save && @user.can_complete_onboarding?
+      @user.update(onboarding_complete: true)
+      redirect_to user_feelings_path(@user)
     end
-  end
-
-  def update
-    return unless @user.can_update_today?
-
-    @feeling.old!
-    redirect_back(fallback_location: root_path)
-  end
-
-  def destroy
-    @feeling.destroy
-    redirect_to user_feelings_path(@user)
   end
 
   private
